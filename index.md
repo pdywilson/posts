@@ -181,7 +181,7 @@ PATH="/usr/local/bin:/usr/bin:/bin"
 20 4 * * * python3 /home/pdywilson/rentcrawler/crawl.py && python3 /home/pdywilson/rentcrawler/create_website.py && cd /home/pdywilson/rentmanhost && firebase deploy --only hosting >> ~/cron.log 2>&1
 ```
 
-That's it! We can now open https://rentmanhost.web.app/ in the browser and check out the newest numbers on monthly rent in Dublin.
+That's it! We can now open [https://rentmanhost.web.app/](https://rentmanhost.web.app/) in the browser and check out the newest numbers on monthly rent in Dublin.
 
 ## Summary
 
