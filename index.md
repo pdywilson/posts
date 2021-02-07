@@ -12,14 +12,10 @@ The quickest and easiest way to crawl daft.ie for their property prices was to u
 
     url = 'https://www.daft.ie/property-for-rent/dublin-city/apartments?numBeds_to=2&sort=publishDateDesc'
 
-    # We can add one or multiple candidates here.
-    # You can also put urls here to retrieve urls.
     wanted_list = [re.compile('€.*per month')]
 
     scraper = AutoScraper()
     result = scraper.build(url, wanted_list)
-
-
 
     for i in range(20,2000,20): #
         url = 'https://www.daft.ie/property-for-rent/dublin-city/apartments?numBeds_to=2&sort=publishDateDesc&from={}&pageSize=20'.format(i)
