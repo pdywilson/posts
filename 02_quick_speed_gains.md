@@ -1,0 +1,4 @@
+# Data Engineering Toy Project
+## Quick speed gains
+
+I tried speeding up my web scraping code which I measured to take 1 - 1.5 mins. First I tried out `Pool()` from the `multiprocessing` python library which halved the time of execution by using multiple cores. The limitation here is the number of cores on the machine that runs the script, so I googled for another solution and stumbled across this blog [https://beckernick.github.io/faster-web-scraping-python/](https://beckernick.github.io/faster-web-scraping-python/) which talks exactly about my problem. Here they use python's `concurrent.futures` which starts multiple threads on the same process and executes them concurrently. This yields even better results than multiprocessing and I am now at ~30 seconds execution time. This is reasonable for crawling ~100 webpages asynchronously, but I wonder if it can  be done even faster somehow...
