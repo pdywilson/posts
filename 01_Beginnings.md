@@ -1,7 +1,7 @@
 # Data Engineering Toy Project
 ## A minimal example of deploying a data pipeline
 
-Almost one year into quarantine here in Dublin I was wondering whether the notoriously high rent prices in Dublin might actually be going down at the moment. To investigate this I wanted to set up a data processing pipeline that automatically updates a webpage with the current status of monthly rent prices in Dublin, all while trying out some cool new frameworks: google compute cloud, airflow, spark, firebase.
+Almost one year into quarantine here in Dublin I was wondering whether the notoriously high rent prices in Dublin might actually be going down at the moment. To investigate this I wanted to set up a data processing pipeline that automatically updates a webpage with the current status of monthly rent prices in Dublin, all while trying out google compute cloud & firebase.
 
 So the first step was to get data on the monthly rents in Dublin. All I found in terms of datasets was the RTB Average Rent Dataset https://www.rtb.ie/research/average-rent-dataset. This dataset gives the average rents for each of Dublin's districts at a quarterly basis. With the last update being Q3-2020 this wasn't up-to-date enough for me, I wanted a more current status of the housing market. So the next idea I had was to crawl daft.ie (Ireland's most used property website) for a more current status on the rents.
 
@@ -196,7 +196,7 @@ Today we had a look at a small example of deploying a data pipeline that automat
 ## Next steps
 
 1. Using cron is a bit fiddly, so I'd like to replace it with the scheduling framework `airflow`. 
-2. Our data crawler is a bit slow, I want to see if I can optimize it using `PySpark`.
+2. Our data crawler is a bit slow, I want to see if I can optimize it using `PySpark` or and implementation in another language.
 3. I'm also thinking about containerizing this application, to make it easily deployable and scalable.
 4. One of my goals for the near future is to deploy a real-time streaming data pipeline. I will be able to use the learnings from this toy example to get started on writing a proper streaming pipeline with real-time analytics soon!
 
