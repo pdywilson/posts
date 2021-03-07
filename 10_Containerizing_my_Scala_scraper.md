@@ -37,7 +37,7 @@ object Scalaguy {
 
 What's left to do is to set up the smtp with my gmail (watch out with using the password freely here, I used a throwaway e-mail here).
 
-
+```
 import courier._, Defaults._
 val mailer = Mailer("smtp.gmail.com", 587)
                    .auth(true)
@@ -47,10 +47,11 @@ val mailer = Mailer("smtp.gmail.com", 587)
             .to("me" `@` "gmail.com")
             .subject("UR22 Update")
             .content(Text(outp)))
+```
 
-Simple as that! ... You might think. This works on Scastie, but it took me a while to get it to work on the Server. After a lot of trying around I figured out that the JVM instance gets killed too early and the email never makes it out! Therefore I added a 'Thread.sleep(5000)' at the end, and this made it work!!
+Simple as that! ... You might think. This works on Scastie, but it took me a while to get it to work on the Server. After a lot of trying around I figured out that the JVM instance gets killed too early and the email never makes it out! Therefore I added a `Thread.sleep(5000)` at the end, and this made it work!!
 
-Finally, to containerize the app, we simply need to run a few convenient sbt commands. I found this great guide on how to do it: https://www.freecodecamp.org/news/how-to-dockerise-a-scala-and-akka-http-application-the-easy-way-23310fc880fa/.
+Finally, to containerize the app, we simply need to run a few convenient sbt commands. I found this great guide on how to do it: [https://www.freecodecamp.org/news/how-to-dockerise-a-scala-and-akka-http-application-the-easy-way-23310fc880fa/](https://www.freecodecamp.org/news/how-to-dockerise-a-scala-and-akka-http-application-the-easy-way-23310fc880fa/).
 
 Basically we need to add 
 ```
@@ -69,8 +70,10 @@ Our good old friend cron can be used to run the program every few hours. Using c
 Other notes:
 - How to send emails via command-line: https://sylvaindurand.org/send-emails-with-msmtp/
 - Some commands for docker clean up:
+
 ```
 docker container stop $(docker container ls –aq)
-
+```
+```
 docker container rm $(docker container ls –aq)
 ```
