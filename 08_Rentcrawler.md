@@ -77,8 +77,7 @@ This saves a timestamp together with the mean, median and number of properties u
 
 Now that the database is set up, we can move on to deploying the application.
 
-## Part 3. Deployment
-
+## Part 3. Deployment
 First we configure a VM instance (Virtual Machine) on Google Compute Cloud. I went with e2-medium (2 vCPUs, 4 GB memory), the standard debian image and a zone in europe which is where I live. I also activated HTTP and HTTPS traffic. Clicking on the SSH button opens up a terminal in the browser and we can go ahead and pull our Scala code onto it from github. To run the code, I compiled it with `sbt assembly` and then was able to run it with `scala target/...jar`. 
 
 As mentioned above, I am using Firebase for deploying the website and here I just followed the Get-Started-Guide at https://firebase.google.com/docs/hosting/quickstart. This quick start guide deploys a website at *projectname*.web.app showing the contents of an index.html file on my VM instance. All that's left to do is populate this index.html file. To do this, I simply output an index.html file with scala using a long string.
