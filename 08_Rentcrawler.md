@@ -17,7 +17,7 @@ I used GCP for deploying my scala code, GCP Cloud SQL as the database, Firebase 
 
 The details of the program are explained in the following four parts: Scraping, Database, Deployment and Automation.
 
-## Part 1. Scraping
+### Part 1. Scraping
 For this task I used the package `scala-scraper`, which includes the `JsoupBrowser`.
 ```
   /**
