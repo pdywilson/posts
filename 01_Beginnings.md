@@ -3,14 +3,14 @@
 
 Almost one year into quarantine here in Dublin I was wondering whether the notoriously high rent prices in Dublin might actually be going down at the moment. To investigate this I wanted to set up a data processing pipeline that automatically updates a webpage with the current status of monthly rent prices in Dublin, all while trying out google compute cloud & firebase.
 
-So the first step was to get data on the monthly rents in Dublin. All I found in terms of datasets was the RTB Average Rent Dataset https://www.rtb.ie/research/average-rent-dataset. This dataset gives the average rents for each of Dublin's districts at a quarterly basis. With the last update being Q3-2020 this wasn't up-to-date enough for me, I wanted a more current status of the housing market. So the next idea I had was to crawl daft.ie (Ireland's most used property website) for a more current status on the rents.
+So the first step was to get data on the monthly rents in Dublin. All I found in terms of datasets was the RTB Average Rent Dataset https://www.rtb.ie/research/average-rent-dataset. This dataset gives the average rents for each of Dublin's districts at a quarterly basis. With the last update being Q3-2020 this wasn't up-to-date enough for me, I wanted a more current status of the housing market. So the next idea I had was to crawl rentalpropertywebsite (Ireland's most used property website) for a more current status on the rents.
 
-The quickest and easiest way to crawl daft.ie for their property prices was to use the python package `autoscraper`. 
+The quickest and easiest way to crawl rentalpropertywebsite for their property prices was to use the python package `autoscraper`. 
 ```
 from autoscraper import AutoScraper
 import re
 
-url = 'https://www.daft.ie/property-for-rent/dublin-city/apartments?numBeds_to=2&sort=publishDateDesc'
+url = 'https://www.rentalpropertywebsite/property-for-rent/dublin-city/apartments?numBeds_to=2&sort=publishDateDesc'
 
 wanted_list = [re.compile('€.*per month')]
 
@@ -18,14 +18,14 @@ scraper = AutoScraper()
 result = scraper.build(url, wanted_list)
 
 for i in range(20,2000,20): #
-    url = 'https://www.daft.ie/property-for-rent/dublin-city/apartments?numBeds_to=2&sort=publishDateDesc&from={}&pageSize=20'.format(i)
+    url = 'https://www.rentalpropertywebsite/property-for-rent/dublin-city/apartments?numBeds_to=2&sort=publishDateDesc&from={}&pageSize=20'.format(i)
     scraper = AutoScraper()
     result = result + scraper.build(url, wanted_list)
 
 print("Scraped {} rents.".format(len(result)))
 ```
 
-This will give me a list of everything that looks like the regular expression '€.*per month' on the webpage. The search is based on the html code that is pulled from the daft.ie url in which I specify my search on apartments for rent in Dublin-City with maximum number of beds of 2. The maximum amount of apartments shown on one page of the daft search is 20 so I go through the list of apartments in increments of 20 with a for loop. The result looks something like this:
+This will give me a list of everything that looks like the regular expression '€.*per month' on the webpage. The search is based on the html code that is pulled from the rentalpropertywebsite url in which I specify my search on apartments for rent in Dublin-City with maximum number of beds of 2. The maximum amount of apartments shown on one page of the daft search is 20 so I go through the list of apartments in increments of 20 with a for loop. The result looks something like this:
 
     ['€1,501 per month', '€1,800 per month', '€2,000 per month', 'A better kind of renting',...]
 
@@ -123,7 +123,7 @@ The current rent average is €1855, the median is €1800 per month. - 06/02/20
 ```
 
 Warning: This next part may sound a bit technical and confusing, but it was really surprisingly easy to set it all up.
-The next step was to deploy our findings onto a webpage, so that everyone can have a look at the average price for which an apartment is currently posted on daft.ie in Dublin. First, I needed a server that is always online so that I can run my crawl script in regular time intervals in an automated fashion. I decided to use my free cloud computing credits on the Google Cloud Computing platform to set up a virtual machine and configure this to run my script every 24 hours. I also wanted to try something new for the task of serving the website, i.e. making it accessible in the internet and went for Google's Firebase web app deployment framework. In the past I used the Apache web server for similar tasks, but I must say it went way easier with Firebase. Let's go.
+The next step was to deploy our findings onto a webpage, so that everyone can have a look at the average price for which an apartment is currently posted on rentalpropertywebsite in Dublin. First, I needed a server that is always online so that I can run my crawl script in regular time intervals in an automated fashion. I decided to use my free cloud computing credits on the Google Cloud Computing platform to set up a virtual machine and configure this to run my script every 24 hours. I also wanted to try something new for the task of serving the website, i.e. making it accessible in the internet and went for Google's Firebase web app deployment framework. In the past I used the Apache web server for similar tasks, but I must say it went way easier with Firebase. Let's go.
 
 First we configure a VM instance (Virtual Machine) on Google Compute Cloud. I went with e2-medium (2 vCPUs, 4 GB memory), the standard debian image and a zone in europe which is where I live. I also activated HTTP and HTTPS traffic. Clicking on the SSH button opens up a terminal in the browser and we can go ahead and copy our Python code onto it. To run the python script I first had to install `pip` and `autoscraper` on the machine. After testing that the crawl Python script works, I went ahead and set up a cron job to run it every 24 hours. This is done by editing the crontab with `crontab -e`
 
@@ -136,7 +136,7 @@ Note that I set the PATH here to make python3 callable for the cron service. I a
 
 To make it work I also had to make the python script executable with `chmod u+x crawl.py`
 
-Now that I update my SQL database with the newest read from daft.ie every day, I'd like to see the news on the internet, i.e. on a webpage. As mentioned I am using Firebase for this and here I just followed the Get-Started-Guide at https://firebase.google.com/docs/hosting/quickstart. This quick start guide deploys a website at <projectname>.web.app showing the contents of an index.html file on my VM instance. All that's left to do is populate this index.html file. To do this I used this quick-and-dirty python script:
+Now that I update my SQL database with the newest read from rentalpropertywebsite every day, I'd like to see the news on the internet, i.e. on a webpage. As mentioned I am using Firebase for this and here I just followed the Get-Started-Guide at https://firebase.google.com/docs/hosting/quickstart. This quick start guide deploys a website at <projectname>.web.app showing the contents of an index.html file on my VM instance. All that's left to do is populate this index.html file. To do this I used this quick-and-dirty python script:
 
 ```
 #check most recent

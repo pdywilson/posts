@@ -21,7 +21,7 @@ object HelloWorld {
     val browser = JsoupBrowser()    
     
     val parvec = (0 to 50).toVector
-    val mapper = parvec.map(_ => Future{browser.get("https://www.daft.ie/").toString.length} andThen {case x => println(x)})
+    val mapper = parvec.map(_ => Future{browser.get("https://www.rentalpropertywebsite/").toString.length} andThen {case x => println(x)})
     val reducer = mapper.map(x => Await.result(x, 20.seconds))
     
     println("elapsed time: "+(System.currentTimeMillis()-t0)/1000)
@@ -30,5 +30,5 @@ object HelloWorld {
   }
 }
 
-// for daft.ie 1 sec, for daft.ie/property-for-rent/dublin?numBeds_from=2&numBeds_to=2 7 sec 
-// counts number of characters on webpage: 116k for daft.ie, 1.6 Mio for daft.ie/property-for-rent/dublin?numBeds_from=2&numBeds_to=2
+// for rentalpropertywebsite 1 sec, for rentalpropertywebsite/property-for-rent/dublin?numBeds_from=2&numBeds_to=2 7 sec 
+// counts number of characters on webpage: 116k for rentalpropertywebsite, 1.6 Mio for rentalpropertywebsite/property-for-rent/dublin?numBeds_from=2&numBeds_to=2
