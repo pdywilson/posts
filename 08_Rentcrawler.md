@@ -34,7 +34,7 @@ For this task I used the package `scala-scraper`, which includes the `JsoupBrows
      } recover {case _ => List[Int]()}
 ```
 
-This will give me a list of everything that looks like the regular expression '€.*per month' on the webpage. The search is based on the html code that is pulled from the url in which I specify my search on apartments for rent in Dublin-City with maximum number of beds of 2. The maximum amount of apartments shown on one page of the daft search is 20 so I go through the list of apartments in increments of 20 with a for loop. The result is a list of Integers that I can use to calculate the mean and median.
+This will give me a list of everything that looks like the regular expression '€.*per month' on the webpage. The search is based on the html code that is pulled from the url in which I specify my search on apartments for rent in Dublin-City with maximum number of beds of 2. The maximum amount of apartments shown on one page rental property website is 20 so I go through the list of apartments in increments of 20 with a for loop. The result is a list of Integers that I can use to calculate the mean and median.
 
 ## Part 2. Database
 I was thinking it might be good practice to store this in a database using a seperate cloud instance, here I used Cloud SQL.
