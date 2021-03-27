@@ -1,15 +1,17 @@
 # Data Engineering Toy Project
 ## A minimal example of deploying a data pipeline
 
-Update: This is an updated version of my project. Initially I used Python and the code took about ~4 mins to run, now with Scala and Asynchronous + Parallel programming it runs in 30 seconds.
+Update: This is an updated version of my project. Initially I used Python and the code took about ~4 minutes to run, now with Scala and Asynchronous + Parallel programming it runs in ~30 seconds.
 
 Almost one year into quarantine here in Dublin I was wondering whether the notoriously high rent prices in Dublin might actually be going down at the moment. To investigate this I wanted to set up a data processing pipeline that automatically updates a webpage with the current status of monthly rent prices in Dublin, all while trying out google compute cloud & firebase.
 
 So the first step was to get data on the monthly rents in Dublin. All I found in terms of datasets was the RTB Average Rent Dataset https://www.rtb.ie/research/average-rent-dataset. This dataset gives the average rents for each of Dublin's districts at a quarterly basis. With the last update being Q3-2020 this wasn't up-to-date enough for me, I wanted a more current status of the housing market. So the next idea I had was to crawl a rental property website for a more current status on the rents.
 
-The architecture looked something like this. (The diagram was created with creately.com)
+The architecture looked something like this. 
 
 ![architecture.png](architecture.png)
+
+(This diagram was created with creately.com)
 
 I used GCP for deploying my scala code, GCP Cloud SQL as the database, Firebase to deploy the website and cron for automation of running the program and deploying the website.
 
@@ -72,6 +74,8 @@ This saves a timestamp together with the mean, median and number of properties u
     val config = scala.io.Source.fromFile(".config").getLines
     ConnectionPool.singleton(config.next().toString, config.next().toString, config.next().toString)
 ```
+
+Now that the database is set up, we can move on to deploying the application.
 
 ## Part 3. Deployment
 
