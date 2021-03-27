@@ -1,6 +1,8 @@
 # Data Engineering Toy Project
 ## A minimal example of deploying a data pipeline
 
+Update: This is an updated version of my project. Initially I used Python and the code took about ~4 mins to run, now with Scala and Asynchronous + Parallel programming it runs in 30 seconds.
+
 Almost one year into quarantine here in Dublin I was wondering whether the notoriously high rent prices in Dublin might actually be going down at the moment. To investigate this I wanted to set up a data processing pipeline that automatically updates a webpage with the current status of monthly rent prices in Dublin, all while trying out google compute cloud & firebase.
 
 So the first step was to get data on the monthly rents in Dublin. All I found in terms of datasets was the RTB Average Rent Dataset https://www.rtb.ie/research/average-rent-dataset. This dataset gives the average rents for each of Dublin's districts at a quarterly basis. With the last update being Q3-2020 this wasn't up-to-date enough for me, I wanted a more current status of the housing market. So the next idea I had was to crawl a rental property website for a more current status on the rents.
@@ -61,7 +63,7 @@ I was thinking it might be good practice to store this in a database using a sep
 
 This saves a timestamp together with the mean, median and number of properties used to calculate for each of the categories (1-bedroon, 2-bedroom, etc.).
 
-> Don't upload sensitive information such as passwords to GitHub! I need to access the CloudSQL database through my Scala code (which I upload to github). This involves using an IP adress as well as a DB username and password. The Solution: Use a `.config` file that is not tracked in github that contains the password and read the password from the file with code. See following code:
+> Don't upload sensitive information such as passwords to GitHub! I need to access the CloudSQL database through my Scala code (which I upload to github). This involves using an IP address as well as a DB username and password. The Solution: Use a `.config` file that is not tracked in github that contains the password and read the password from the file with code. See following code:
 
 ```
     // ad-hoc session provider on the REPL
@@ -150,7 +152,7 @@ To automate it I set up a cron job to run it every 24 hours. This is done by edi
 
 ```
 PATH="/home/pdywilson/.sdkman/candidates/java/current/bin:/home/pdywilson/.sdkman/candidates/scala/current/bin:/usr/local/bin:/usr/bin:/bin"
-0 0 * * * cd /home/pdywilson/rentcrawler/posty && scala target/scala-2.13/posty-assembly-0.1.0-SNAPSHOT.jar && cd /home/pdywilson/rentmanhost && firebase deploy --only hosting >> ~/cron.log 2>&1
+0 0 * * * cd /home/pdywilson/rentcrawler/scala && scala target/scala-2.13/posty-assembly-0.1.0-SNAPSHOT.jar && cd /home/pdywilson/rentmanhost && firebase deploy --only hosting >> ~/cron.log 2>&1
 ```
 
 Note that I set the PATH here to make scala callable for the cron service. I also rerouted the output as well as the error output to `~/cron.log` so that I can check if it worked or what the error message says if it doesn't with `cat ~/cron.log`.
